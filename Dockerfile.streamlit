@@ -1,0 +1,16 @@
+FROM python:3.12-slim
+
+WORKDIR /app
+
+COPY requirements.txt /tmp/requirements.txt
+RUN pip install --no-cache-dir -r /tmp/requirements.txt
+
+COPY streamlit_app.py /app/streamlit_app.py
+COPY .streamlit /app/.streamlit
+COPY data /app/data
+COPY models /app/models
+COPY artifacts/analysis.json /app/artifacts/analysis.json
+
+EXPOSE 8501
+
+CMD ["streamlit", "run", "streamlit_app.py", "--server.address=0.0.0.0", "--server.port=8501"]
